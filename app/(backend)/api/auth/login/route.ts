@@ -20,9 +20,14 @@ export async function POST(req: NextRequest) {
   const accessToken = generateAccessToken(payload);
   const refreshToken = generateRefreshToken(payload);
 
-  const res = NextResponse.json({ accessToken });
+  const res = NextResponse.json({
+    accessToken,
+  });
+
   res.cookies.set("refreshToken", refreshToken, {
     httpOnly: true,
+    secure: true,
+    sameSite: "strict",
     path: "/",
     maxAge: 60 * 60 * 24 * 7, // 7 days
   });
